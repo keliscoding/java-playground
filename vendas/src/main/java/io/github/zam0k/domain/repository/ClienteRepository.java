@@ -5,12 +5,14 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import io.github.zam0k.domain.entity.Cliente;
 
 //repository são classes que acessam a base de dados
 
-public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
+public interface ClienteRepository
+		extends JpaRepository<Cliente, Integer> {
 
 	// Query Methods
 	public List<Cliente> findByNomeLike(String nome);
@@ -23,4 +25,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 	@Modifying // obrigatório colocar em métodos delete ou update
 	public void deleteByNome(String nome);
 
+	@Query(" select c from Cliente c left join fetch c.pedidos p where c.id = :id")
+	public Cliente findClienteFetchPedidos(@Param("id") Integer id);
 }

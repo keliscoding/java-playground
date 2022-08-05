@@ -26,7 +26,7 @@ public class Pedido {
 	@Column(name = "data_pedido")
 	private LocalDateTime dataPedido;
 
-	@Column(length = 20, precision = 2)
+	@Column(precision = 20, scale = 2)
 	private BigDecimal total;
 
 	@ManyToOne(fetch = FetchType.LAZY)
