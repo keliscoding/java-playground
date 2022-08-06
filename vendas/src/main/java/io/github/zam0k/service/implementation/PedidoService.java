@@ -18,6 +18,7 @@ import io.github.zam0k.domain.repository.ClienteRepository;
 import io.github.zam0k.domain.repository.ItemPedidoRepository;
 import io.github.zam0k.domain.repository.PedidoRepository;
 import io.github.zam0k.domain.repository.ProdutoRepository;
+import io.github.zam0k.exception.PedidoNaoEncontradoException;
 import io.github.zam0k.exception.RegraNegocioException;
 import io.github.zam0k.rest.dto.ItemPedidoDTO;
 import io.github.zam0k.rest.dto.PedidoDTO;
@@ -84,6 +85,17 @@ public class PedidoService implements IPedidoService {
 	@Override
 	public Optional<Pedido> obterPedidoCompleto(Integer id) {
 		return pedidoRepository.findByIdFetchItens(id);
+	}
+
+	@Override
+	@Transactional
+	public void atualizaStatus(Integer id,
+			StatusPedido statusPedido) {
+		pedidoRepository.findById(id).map(pedido -> {
+			pedido.setStatus(statusPedido);
+			return pedidoRepository.save(pedido);
+		}).orElseThrow(() -> new PedidoNaoEncontradoException());
+
 	}
 
 }
