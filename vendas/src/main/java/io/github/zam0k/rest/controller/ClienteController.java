@@ -1,8 +1,12 @@
 package io.github.zam0k.rest.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -66,7 +70,7 @@ public class ClienteController {
 
 	@PatchMapping("/{id}")
 	@ResponseBody
-	public ResponseEntity updateCliente(@PathVariable Integer id,
+	public ResponseEntity<?> updateCliente(@PathVariable Integer id,
 			@RequestBody Cliente cliente) {
 		return clienteRepository.findById(id)
 				.map(clienteExistente -> {
@@ -75,5 +79,17 @@ public class ClienteController {
 					return ResponseEntity.noContent().build();
 				}).orElseGet(() -> ResponseEntity.notFound().build());
 
+	}
+
+	@GetMapping
+	public ResponseEntity<List<Cliente>> findCliente(Cliente filtro) {
+		ExampleMatcher matcher = ExampleMatcher.matching()
+				.withIgnoreCase()
+				.withStringMatcher(StringMatcher.CONTAINING);
+
+		Example<Cliente> example = Example.of(filtro, matcher);
+		List<Cliente> lista = clienteRepository.findAll(example);
+
+		return ResponseEntity.ok(lista);
 	}
 }

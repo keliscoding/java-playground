@@ -23,6 +23,9 @@ public class Cliente {
 	@Column(name = "nome", length = 100)
 	private String nome;
 
+	@Column(name = "cpf", length = 11)
+	private String cpf;
+
 	@JsonIgnore // ignora a propriedade no json
 	@OneToMany(mappedBy = "cliente")
 	private Set<Pedido> pedidos;
@@ -57,6 +60,14 @@ public class Cliente {
 
 	public void setPedidos(Set<Pedido> pedidos) {
 		this.pedidos = pedidos;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 }
