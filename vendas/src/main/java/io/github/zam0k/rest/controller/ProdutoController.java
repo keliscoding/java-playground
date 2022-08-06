@@ -18,66 +18,64 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import io.github.zam0k.domain.entity.Cliente;
-import io.github.zam0k.domain.repository.ClienteRepository;
+import io.github.zam0k.domain.entity.Produto;
+import io.github.zam0k.domain.repository.ProdutoRepository;
 
 @RestController
-@RequestMapping("/api/clientes")
-public class ClienteController {
+@RequestMapping("/api/produtos")
+public class ProdutoController {
 
-	private ClienteRepository clienteRepository;
+	private ProdutoRepository produtoRepository;
 
 	@Autowired
-	public ClienteController(ClienteRepository clienteRepository) {
-		this.clienteRepository = clienteRepository;
-	}
-
-	@GetMapping("/{id}")
-	public Cliente getClienteById(@PathVariable Integer id) {
-		return clienteRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(
-						HttpStatus.NOT_FOUND,
-						"Cliente não encontrado"));
+	public ProdutoController(ProdutoRepository produtoRepository) {
+		this.produtoRepository = produtoRepository;
 	}
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public Cliente createCliente(@RequestBody Cliente cliente) {
-		return clienteRepository.save(cliente);
+	public Produto cadastrarProdutos(@RequestBody Produto produto) {
+		return produtoRepository.save(produto);
 	}
 
-	@DeleteMapping("/{id}")
-	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void deleteCliente(@PathVariable Integer id) {
-		clienteRepository.findById(id).map(cliente -> {
-			clienteRepository.delete(cliente);
-			return void.class;
-		}).orElseThrow(() -> new ResponseStatusException(
-				HttpStatus.NOT_FOUND, "Cliente não encontrado"));
-
-	}
-
-	@PatchMapping("/{id}")
-	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void updateCliente(@PathVariable Integer id,
-			@RequestBody Cliente cliente) {
-		clienteRepository.findById(id).map(clienteExistente -> {
-			cliente.setId(id);
-			clienteRepository.save(cliente);
-			return void.class;
-		}).orElseThrow(() -> new ResponseStatusException(
-				HttpStatus.NOT_FOUND, "Cliente não encontrado"));
-
+	@GetMapping("/{id}")
+	public Produto getProdutoById(@PathVariable Integer id) {
+		return produtoRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(
+						HttpStatus.NOT_FOUND,
+						"Produto não encontrado"));
 	}
 
 	@GetMapping
-	public List<Cliente> findCliente(Cliente filtro) {
+	public List<Produto> listProdutos(Produto produto) {
 		ExampleMatcher matcher = ExampleMatcher.matching()
 				.withIgnoreCase()
 				.withStringMatcher(StringMatcher.CONTAINING);
 
-		Example<Cliente> example = Example.of(filtro, matcher);
-		return clienteRepository.findAll(example);
+		Example<Produto> example = Example.of(produto, matcher);
 
+		return produtoRepository.findAll(example);
+	}
+
+	@DeleteMapping("/{id}")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void deleteProduto(@PathVariable Integer id) {
+		produtoRepository.findById(id).map(produto -> {
+			produtoRepository.delete(produto);
+			return void.class;
+		}).orElseThrow(() -> new ResponseStatusException(
+				HttpStatus.NOT_FOUND, "Produto não encontrado"));
+	}
+
+	@PatchMapping("/{id}")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void updateProduto(@PathVariable Integer id,
+			@RequestBody Produto produto) {
+		produtoRepository.findById(id).map(produtoFound -> {
+			produto.setId(id);
+			produtoRepository.save(produto);
+			return void.class;
+		}).orElseThrow(() -> new ResponseStatusException(
+				HttpStatus.NOT_FOUND));
 	}
 }
