@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import io.github.zam0k.domain.enums.StatusPedido;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,5 +50,8 @@ public class Pedido {
 
 	@OneToMany(mappedBy = "pedido")
 	private List<ItemPedido> itens;
+
+	@Enumerated(EnumType.STRING)
+	private StatusPedido status;
 
 }

@@ -13,6 +13,7 @@ import io.github.zam0k.domain.entity.Cliente;
 import io.github.zam0k.domain.entity.ItemPedido;
 import io.github.zam0k.domain.entity.Pedido;
 import io.github.zam0k.domain.entity.Produto;
+import io.github.zam0k.domain.enums.StatusPedido;
 import io.github.zam0k.domain.repository.ClienteRepository;
 import io.github.zam0k.domain.repository.ItemPedidoRepository;
 import io.github.zam0k.domain.repository.PedidoRepository;
@@ -47,6 +48,7 @@ public class PedidoService implements IPedidoService {
 		pedido.setTotal(dto.getTotal());
 		pedido.setDataPedido(LocalDateTime.now());
 		pedido.setCliente(cliente);
+		pedido.setStatus(StatusPedido.REALIZADO);
 
 		List<ItemPedido> itemsPedido = converterItems(pedido,
 				dto.getItems());
