@@ -2,6 +2,7 @@ package io.github.zam0k.service.implementation;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -76,6 +77,11 @@ public class PedidoService implements IPedidoService {
 			itemPedido.setProduto(produto);
 			return itemPedido;
 		}).collect(Collectors.toList()); // isso aqui converte o objeto stream pra lista
+	}
+
+	@Override
+	public Optional<Pedido> obterPedidoCompleto(Integer id) {
+		return pedidoRepository.findByIdFetchItens(id);
 	}
 
 }
