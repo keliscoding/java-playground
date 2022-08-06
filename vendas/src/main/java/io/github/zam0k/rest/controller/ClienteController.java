@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,5 +62,18 @@ public class ClienteController {
 		}
 
 		return ResponseEntity.notFound().build();
+	}
+
+	@PatchMapping("/{id}")
+	@ResponseBody
+	public ResponseEntity updateCliente(@PathVariable Integer id,
+			@RequestBody Cliente cliente) {
+		return clienteRepository.findById(id)
+				.map(clienteExistente -> {
+					cliente.setId(id);
+					clienteRepository.save(cliente);
+					return ResponseEntity.noContent().build();
+				}).orElseGet(() -> ResponseEntity.notFound().build());
+
 	}
 }
