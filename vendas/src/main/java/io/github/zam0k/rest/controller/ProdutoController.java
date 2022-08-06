@@ -25,6 +25,8 @@ import io.github.zam0k.domain.repository.ProdutoRepository;
 @RequestMapping("/api/produtos")
 public class ProdutoController {
 
+	// dava para criar uma classe abstrata com essas implementações e só extender
+
 	private ProdutoRepository produtoRepository;
 
 	@Autowired
