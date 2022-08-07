@@ -2,6 +2,8 @@ package io.github.zam0k.rest.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -42,7 +44,8 @@ public class ClienteController {
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public Cliente createCliente(@RequestBody Cliente cliente) {
+	public Cliente createCliente(
+			@RequestBody @Valid Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
 
