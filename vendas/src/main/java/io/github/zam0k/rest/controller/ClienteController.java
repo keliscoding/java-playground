@@ -63,7 +63,7 @@ public class ClienteController {
 	@PatchMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void updateCliente(@PathVariable Integer id,
-			@RequestBody Cliente cliente) {
+			@RequestBody @Valid Cliente cliente) {
 		clienteRepository.findById(id).map(clienteExistente -> {
 			cliente.setId(id);
 			clienteRepository.save(cliente);

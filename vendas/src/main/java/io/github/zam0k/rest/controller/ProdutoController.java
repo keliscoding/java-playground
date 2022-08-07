@@ -2,6 +2,8 @@ package io.github.zam0k.rest.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -36,7 +38,8 @@ public class ProdutoController {
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public Produto cadastrarProdutos(@RequestBody Produto produto) {
+	public Produto cadastrarProdutos(
+			@RequestBody @Valid Produto produto) {
 		return produtoRepository.save(produto);
 	}
 
@@ -72,7 +75,7 @@ public class ProdutoController {
 	@PatchMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void updateProduto(@PathVariable Integer id,
-			@RequestBody Produto produto) {
+			@RequestBody @Valid Produto produto) {
 		produtoRepository.findById(id).map(produtoFound -> {
 			produto.setId(id);
 			produtoRepository.save(produto);
