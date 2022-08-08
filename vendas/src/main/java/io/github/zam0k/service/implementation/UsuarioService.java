@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import io.github.zam0k.domain.entity.Usuario;
 import io.github.zam0k.domain.repository.UsuarioRepository;
+import io.github.zam0k.exception.SenhaInvalidaException;
 
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -27,6 +28,19 @@ public class UsuarioService implements UserDetailsService {
 		return usuarioRepository.save(usuario);
 	}
 
+	public UserDetails autenticar(Usuario usuario)
+			throws SenhaInvalidaException {
+		UserDetails user = loadUserByUsername(usuario.getUsername());
+		boolean passwordMatches = encoder.matches(usuario.getPassword(),
+				user.getPassword());
+
+		if (passwordMatches) {
+			return user;
+		}
+
+		throw new SenhaInvalidaException();
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
@@ -35,8 +49,7 @@ public class UsuarioService implements UserDetailsService {
 				.orElseThrow(() -> new UsernameNotFoundException(
 						"Usuário não encontrado na base de dados."));
 
-		String[] roles = usuario.isAdmin()
-				? new String[] { "USER", "ADMIN" }
+		String[] roles = usuario.isAdmin() ? new String[] { "USER", "ADMIN" }
 				: new String[] { "USER" };
 
 		return User.builder().username(usuario.getUsername())
