@@ -1,4 +1,4 @@
-package io.github.zam0k;
+package io.github.zam0k.security.jwt;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
+import io.github.zam0k.VendasApplication;
 import io.github.zam0k.domain.entity.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
