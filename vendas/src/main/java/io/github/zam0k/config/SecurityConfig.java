@@ -1,5 +1,6 @@
 package io.github.zam0k.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,8 +9,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import io.github.zam0k.service.implementation.UsuarioService;
+
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Autowired
+	private UsuarioService usuarioService;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -20,10 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth)
 			throws Exception {
 		// Aqui define a parte de autenticação
-		auth.inMemoryAuthentication()
-				.passwordEncoder(passwordEncoder()).withUser("Fulano")
-				.password(passwordEncoder().encode("123"))
-				.roles("USER", "ADMIN");
+		auth.userDetailsService(usuarioService)
+				.passwordEncoder(passwordEncoder());
 	}
 
 	@Override
