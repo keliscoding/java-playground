@@ -23,13 +23,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.inMemoryAuthentication()
 				.passwordEncoder(passwordEncoder()).withUser("Fulano")
 				.password(passwordEncoder().encode("123"))
-				.roles("USER");
+				.roles("USER", "ADMIN");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// Aqui define a parte de autorização
-		super.configure(http);
+		http.csrf().disable().authorizeRequests()
+				.antMatchers("/api/clientes/**")
+				.hasAnyRole("USER", "ADMIN")
+				.antMatchers("/api/pedidos/**")
+				.hasAnyRole("USER", "ADMIN")
+				.antMatchers("/api/produtos/**").hasRole("ADMIN")
+				.and().formLogin();
 	}
 
 }
