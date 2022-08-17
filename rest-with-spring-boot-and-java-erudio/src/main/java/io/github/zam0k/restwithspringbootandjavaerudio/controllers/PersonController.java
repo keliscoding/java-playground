@@ -1,5 +1,6 @@
 package io.github.zam0k.restwithspringbootandjavaerudio.controllers;
 
+import io.github.zam0k.restwithspringbootandjavaerudio.data.vo.v1.PersonVO;
 import io.github.zam0k.restwithspringbootandjavaerudio.model.Person;
 import io.github.zam0k.restwithspringbootandjavaerudio.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +19,18 @@ public class PersonController {
 
     @GetMapping(value = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person findById(@PathVariable(value = "id") Long id) {
+    public PersonVO findById(@PathVariable(value = "id") Long id) {
         return service.findById(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Person> findAll() {
+    public List<PersonVO> findAll() {
         return service.findAll();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person create(@RequestBody Person person) {
+    public PersonVO create(@RequestBody PersonVO person) {
         return service.create(person);
     }
 
@@ -37,7 +38,7 @@ public class PersonController {
             value = "/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE, //isso aqui é necessário por causa do swagger
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person update(@PathVariable(value = "id") Long id, @RequestBody Person person) {
+    public Person update(@PathVariable(value = "id") Long id, @RequestBody PersonVO person) {
         return service.update(person, id);
     }
 

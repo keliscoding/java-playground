@@ -1,5 +1,6 @@
 package io.github.zam0k.restwithspringbootandjavaerudio.services;
 
+import io.github.zam0k.restwithspringbootandjavaerudio.data.vo.v1.PersonVO;
 import io.github.zam0k.restwithspringbootandjavaerudio.exceptions.ResourceNotFoundException;
 import io.github.zam0k.restwithspringbootandjavaerudio.model.Person;
 import io.github.zam0k.restwithspringbootandjavaerudio.repositories.PersonRepository;
@@ -19,23 +20,25 @@ public class PersonServices {
     @Autowired
     private PersonRepository repository;
 
-    public Person findById(Long id) {
+    public PersonVO findById(Long id) {
         logger.info("Finding one person...");
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this id."));
     }
 
-    public List<Person> findAll() {
+    public List<PersonVO> findAll() {
         logger.info("Finding all people...");
         return repository.findAll();
     }
 
-    public Person create(Person person) {
+    public PersonVO create(PersonVO person) {
         logger.info("Creating one person...");
+
+
         return repository.save(person);
     }
 
-    public Person update(Person person, Long id) {
+    public PersonVO update(PersonVO person, Long id) {
         logger.info("Updating one person...");
         Person entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this id."));
