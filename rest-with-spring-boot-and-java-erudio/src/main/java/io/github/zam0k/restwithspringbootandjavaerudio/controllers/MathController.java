@@ -1,15 +1,19 @@
-package io.github.zam0k.restwithspringbootandjavaerudio;
+package io.github.zam0k.restwithspringbootandjavaerudio.controllers;
 
 import io.github.zam0k.restwithspringbootandjavaerudio.exceptions.UnsupportedMathOperationException;
-import jakarta.websocket.server.PathParam;
+import io.github.zam0k.restwithspringbootandjavaerudio.math.SimpleMath;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.atomic.AtomicLong;
+
+import static io.github.zam0k.restwithspringbootandjavaerudio.converters.NumberConverter.convertToDouble;
+import static io.github.zam0k.restwithspringbootandjavaerudio.converters.NumberConverter.isNumeric;
 
 @RestController
 public class MathController {
     private static final String template = "Hello, %s!";
     private static final AtomicLong counter = new AtomicLong();
+    private SimpleMath math = new SimpleMath();
 
     @RequestMapping(value = "/sum/{numberOne}/{numberTwo}", method = RequestMethod.GET)
     @GetMapping
@@ -17,7 +21,8 @@ public class MathController {
         if(!isNumeric(numberOne) || !isNumeric(numberTwo)) {
             throw new UnsupportedMathOperationException("Please set a numeric value!");
         }
-        return convertToDouble(numberOne) + convertToDouble(numberTwo);
+
+        return math.sum(convertToDouble(numberOne), convertToDouble(numberTwo));
     }
 
     @RequestMapping(value = "/sub/{numberOne}/{numberTwo}", method = RequestMethod.GET)
@@ -26,7 +31,7 @@ public class MathController {
         if(!isNumeric(numberOne) || !isNumeric(numberTwo))
             throw new UnsupportedMathOperationException("Please set a numeric value!");
 
-        return convertToDouble(numberOne) - convertToDouble(numberTwo);
+        return math.subtraction(convertToDouble(numberOne), convertToDouble(numberTwo));
     }
 
     @RequestMapping(value = "/multi/{numberOne}/{numberTwo}", method = RequestMethod.GET)
@@ -35,7 +40,7 @@ public class MathController {
         if(!isNumeric(numberOne) || !isNumeric(numberTwo))
             throw new UnsupportedMathOperationException("Please set a numeric value!");
 
-        return convertToDouble(numberOne) * convertToDouble(numberTwo);
+        return math.multiply(convertToDouble(numberOne), convertToDouble(numberTwo));
     }
 
     @RequestMapping(value = "/div/{numberOne}/{numberTwo}", method = RequestMethod.GET)
@@ -44,7 +49,7 @@ public class MathController {
         if(!isNumeric(numberOne) || !isNumeric(numberTwo))
             throw new UnsupportedMathOperationException("Please set a numeric value!");
 
-        return convertToDouble(numberOne) / convertToDouble(numberTwo);
+        return math.divide(convertToDouble(numberOne), convertToDouble(numberTwo));
     }
 
     @RequestMapping(value = "/average/{numberOne}/{numberTwo}", method = RequestMethod.GET)
@@ -53,30 +58,14 @@ public class MathController {
         if(!isNumeric(numberOne) || !isNumeric(numberTwo))
             throw new UnsupportedMathOperationException("Please set a numeric value!");
 
-        return (convertToDouble(numberOne) + convertToDouble(numberTwo))/2;
+        return math.arithmeticAverage(convertToDouble(numberOne), convertToDouble(numberTwo));
     }
 
     @RequestMapping(value = "/sqr/{number}", method = RequestMethod.GET)
     public Double squareRoot(@PathVariable("number") String number) {
         if(!isNumeric(number))
             throw new UnsupportedMathOperationException("Please set a numeric value!");
-
-        Double dbNumber = convertToDouble(number);
-        return Math.sqrt(dbNumber);
-    }
-
-    private Double convertToDouble(String strNumber) {
-        if (strNumber == null) return 0D;
-
-        String number = strNumber.replaceAll(",", ".");
-        if(isNumeric(number)) return Double.parseDouble(number);
-        return 0D;
-    }
-
-    private boolean isNumeric(String strNumber) {
-        if (strNumber == null) return false;
-        String number = strNumber.replaceAll(",", ".");
-        return number.matches("[-+]?[0-9]*\\.?[0-9]+");
+        return math.squareRoot(convertToDouble(number));
     }
 
 }
