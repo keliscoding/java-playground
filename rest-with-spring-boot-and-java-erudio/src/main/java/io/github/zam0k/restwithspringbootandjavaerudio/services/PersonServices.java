@@ -2,6 +2,7 @@ package io.github.zam0k.restwithspringbootandjavaerudio.services;
 
 import io.github.zam0k.restwithspringbootandjavaerudio.data.vo.v1.PersonVO;
 import io.github.zam0k.restwithspringbootandjavaerudio.exceptions.ResourceNotFoundException;
+import io.github.zam0k.restwithspringbootandjavaerudio.mapper.DozerMapper;
 import io.github.zam0k.restwithspringbootandjavaerudio.model.Person;
 import io.github.zam0k.restwithspringbootandjavaerudio.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +23,24 @@ public class PersonServices {
 
     public PersonVO findById(Long id) {
         logger.info("Finding one person...");
-        return repository.findById(id)
+        Person entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this id."));
+
+        return DozerMapper.parseObject(entity, PersonVO.class);
     }
 
     public List<PersonVO> findAll() {
         logger.info("Finding all people...");
-        return repository.findAll();
+        return DozerMapper.parseListObjects(repository.findAll(), PersonVO.class);
     }
 
     public PersonVO create(PersonVO person) {
         logger.info("Creating one person...");
 
+        Person entity = DozerMapper.parseObject(person, Person.class);
+        entity = repository.save(entity);
 
-        return repository.save(person);
+        return DozerMapper.parseObject(entity, PersonVO.class);
     }
 
     public PersonVO update(PersonVO person, Long id) {
@@ -47,7 +52,9 @@ public class PersonServices {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return repository.save(person);
+        entity = repository.save(entity);
+
+        return DozerMapper.parseObject(entity, PersonVO.class);
     }
 
     public void delete(Long id) {
