@@ -11,6 +11,12 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     show-sql: false
+spring-doc:
+  paths-to-match:
+    - /api/**/v1/**
+  swagger-ui:
+    use-root-path: true
+
 #logging:
 #  level:
 #    root: debug
