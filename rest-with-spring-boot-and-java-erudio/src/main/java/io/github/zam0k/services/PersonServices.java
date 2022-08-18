@@ -3,16 +3,14 @@ package io.github.zam0k.services;
 import java.util.List;
 import java.util.logging.Logger;
 
-import io.github.zam0k.data.vo.v1.PersonVO;
-import io.github.zam0k.exceptions.ResourceNotFoundException;
-import io.github.zam0k.mapper.DozerMapper;
-import io.github.zam0k.model.Person;
 import io.github.zam0k.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.github.zam0k.data.vo.v2.PersonVOV2;
-import io.github.zam0k.mapper.custom.PersonMapper;
+import io.github.zam0k.data.vo.v1.PersonVO;
+import io.github.zam0k.exceptions.ResourceNotFoundException;
+import io.github.zam0k.mapper.DozerMapper;
+import io.github.zam0k.model.Person;
 
 @Service
 public class PersonServices {
@@ -21,9 +19,6 @@ public class PersonServices {
 	
 	@Autowired
     PersonRepository repository;
-	
-	@Autowired
-	PersonMapper mapper;
 
 	public List<PersonVO> findAll() {
 
@@ -46,14 +41,6 @@ public class PersonServices {
 		logger.info("Creating one person!");
 		var entity = DozerMapper.parseObject(person, Person.class);
 		var vo =  DozerMapper.parseObject(repository.save(entity), PersonVO.class);
-		return vo;
-	}
-	
-	public PersonVOV2 createV2(PersonVOV2 person) {
-		
-		logger.info("Creating one person with V2!");
-		var entity = mapper.convertVoTOEntity(person);
-		var vo =  mapper.convertEntityToVo(repository.save(entity));
 		return vo;
 	}
 	

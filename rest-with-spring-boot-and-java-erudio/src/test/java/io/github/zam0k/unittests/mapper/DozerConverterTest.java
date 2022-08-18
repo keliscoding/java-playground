@@ -4,12 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import io.github.zam0k.data.vo.v1.PersonVO;
 import io.github.zam0k.mapper.DozerMapper;
 import io.github.zam0k.model.Person;
 import io.github.zam0k.unittests.mapper.mocks.MockPerson;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 public class DozerConverterTest {
     
