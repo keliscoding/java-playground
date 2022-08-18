@@ -15,7 +15,7 @@
 	<properties>
 		<java.version>18</java.version>
 		<dozer.version>6.4.0</dozer.version>
-		<springdoc.version>2.0.0-M1</springdoc.version>
+		<springdoc.version>2.0.0-M4</springdoc.version>
 	</properties>
 	<dependencies>
 		<dependency>
