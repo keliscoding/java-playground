@@ -15,6 +15,7 @@ public class Book {
 
     private String author;
     @Column(name = "launch_date")
+    @Temporal(TemporalType.DATE)
     private LocalDate launchDate;
     private BigDecimal price;
     private String title;
