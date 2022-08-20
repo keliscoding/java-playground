@@ -2,7 +2,7 @@ package io.github.zam0k.data.vo.v1.security;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 public class TokenVO implements Serializable {
@@ -12,13 +12,13 @@ public class TokenVO implements Serializable {
 
     private String username;
     private Boolean authenticated;
-    private LocalDate created;
-    private LocalDate expiration;
+    private ZonedDateTime created;
+    private ZonedDateTime expiration;
     private String accessToken;
     private String refreshToken;
 
     public TokenVO(String username, Boolean authenticated,
-                   LocalDate created, LocalDate expiration,
+                   ZonedDateTime created, ZonedDateTime expiration,
                    String accessToken, String refreshToken) {
         this.username = username;
         this.authenticated = authenticated;
@@ -47,19 +47,19 @@ public class TokenVO implements Serializable {
         this.authenticated = authenticated;
     }
 
-    public LocalDate getCreated() {
+    public ZonedDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(ZonedDateTime created) {
         this.created = created;
     }
 
-    public LocalDate getExpiration() {
+    public ZonedDateTime getExpiration() {
         return expiration;
     }
 
-    public void setExpiration(LocalDate expiration) {
+    public void setExpiration(ZonedDateTime expiration) {
         this.expiration = expiration;
     }
 
@@ -84,11 +84,17 @@ public class TokenVO implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TokenVO tokenVO = (TokenVO) o;
-        return Objects.equals(getUsername(), tokenVO.getUsername()) && Objects.equals(getAuthenticated(), tokenVO.getAuthenticated()) && Objects.equals(getCreated(), tokenVO.getCreated()) && Objects.equals(getExpiration(), tokenVO.getExpiration()) && Objects.equals(getAccessToken(), tokenVO.getAccessToken()) && Objects.equals(getRefreshToken(), tokenVO.getRefreshToken());
+        return Objects.equals(getUsername(), tokenVO.getUsername())
+                && Objects.equals(getAuthenticated(), tokenVO.getAuthenticated())
+                && Objects.equals(getCreated(), tokenVO.getCreated())
+                && Objects.equals(getExpiration(), tokenVO.getExpiration())
+                && Objects.equals(getAccessToken(), tokenVO.getAccessToken())
+                && Objects.equals(getRefreshToken(), tokenVO.getRefreshToken());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUsername(), getAuthenticated(), getCreated(), getExpiration(), getAccessToken(), getRefreshToken());
+        return Objects.hash(getUsername(), getAuthenticated(),
+                getCreated(), getExpiration(), getAccessToken(), getRefreshToken());
     }
 }
