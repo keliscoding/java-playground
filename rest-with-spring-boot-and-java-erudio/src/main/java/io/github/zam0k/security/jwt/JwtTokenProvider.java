@@ -102,7 +102,7 @@ public class JwtTokenProvider {
         return null;
     }
 
-    public boolean validateToken(String token) throws InvalidJwtAuthenticationException {
+    public boolean validateToken(String token) {
         DecodedJWT decodedJWT = decodedToken(token);
         try {
             if(decodedJWT.getExpiresAt().before(new Date())) {
