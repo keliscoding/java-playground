@@ -45,7 +45,7 @@ public class AuthServices {
             tokenResponse = tokenProvider.createAccessToken(username, user.getRoles());
             return ResponseEntity.ok(tokenResponse);
         } catch (Exception e) {
-            throw  new BadCredentialsException("Invalid username/password supplied!")
+            throw  new BadCredentialsException("Invalid username/password supplied!");
         }
     }
 }
