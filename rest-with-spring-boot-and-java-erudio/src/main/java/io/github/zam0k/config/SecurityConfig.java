@@ -2,7 +2,6 @@ package io.github.zam0k.config;
 
 import io.github.zam0k.security.jwt.JwtConfigurer;
 import io.github.zam0k.security.jwt.JwtTokenProvider;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
@@ -25,7 +25,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        Map<String, PasswordEncoder> encoders = new HashedMap();
+        Map<String, PasswordEncoder> encoders = new HashMap<>();
         //bcrypt ta com problemas de performance, logo estamos usando pbkdf2
         encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
         DelegatingPasswordEncoder passwordEncoder =
