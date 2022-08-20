@@ -2,7 +2,7 @@ package io.github.zam0k.data.vo.v1.security;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 public class TokenVO implements Serializable {
@@ -12,13 +12,13 @@ public class TokenVO implements Serializable {
 
     private String username;
     private Boolean authenticated;
-    private ZonedDateTime created;
-    private ZonedDateTime expiration;
+    private Date created;
+    private Date expiration;
     private String accessToken;
     private String refreshToken;
 
     public TokenVO(String username, Boolean authenticated,
-                   ZonedDateTime created, ZonedDateTime expiration,
+                   Date created, Date expiration,
                    String accessToken, String refreshToken) {
         this.username = username;
         this.authenticated = authenticated;
@@ -47,19 +47,19 @@ public class TokenVO implements Serializable {
         this.authenticated = authenticated;
     }
 
-    public ZonedDateTime getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(ZonedDateTime created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
-    public ZonedDateTime getExpiration() {
+    public Date getExpiration() {
         return expiration;
     }
 
-    public void setExpiration(ZonedDateTime expiration) {
+    public void setExpiration(Date expiration) {
         this.expiration = expiration;
     }
 
