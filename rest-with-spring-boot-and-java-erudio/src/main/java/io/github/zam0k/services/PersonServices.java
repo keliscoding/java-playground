@@ -8,9 +8,10 @@ import io.github.zam0k.model.Person;
 import io.github.zam0k.repositories.PersonRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -24,18 +25,19 @@ public class PersonServices {
 	@Autowired
     PersonRepository repository;
 
-	public List<PersonVO> findAll() {
+	public Page<PersonVO> findAll(Pageable pageable) {
 
 		logger.info("Finding all people!");
 
-		var persons = DozerMapper.parseListObjects(repository.findAll(), PersonVO.class);
-		persons
-				.stream()
-				.forEach(personVO ->
+		var personPage = repository.findAll(pageable);
+
+		var personVOsPage = personPage.map(entity -> DozerMapper.parseObject(entity, PersonVO.class));
+		personVOsPage.map(personVO ->
 						personVO.add(linkTo(methodOn(PersonController.class)
-								.findById(personVO.getKey()))
-								.withSelfRel()));
-		return persons;
+						.findById(personVO.getKey()))
+						.withSelfRel()));
+
+		return personVOsPage;
 	}
 
 	public PersonVO findById(Long id) {
