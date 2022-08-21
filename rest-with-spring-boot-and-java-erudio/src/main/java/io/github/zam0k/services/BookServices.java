@@ -7,9 +7,14 @@ import io.github.zam0k.mapper.DozerMapper;
 import io.github.zam0k.model.Book;
 import io.github.zam0k.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -23,15 +28,31 @@ public class BookServices {
     @Autowired
     private BookRepository repository;
 
-    public List<BookVO> findAll() {
+    @Autowired
+    PagedResourcesAssembler<BookVO> assembler;
+
+    public PagedModel<EntityModel<BookVO>> findAll(Pageable pageable) {
         logger.info("Searching for all books...");
-        List<BookVO> books = DozerMapper.parseListObjects(repository.findAll(), BookVO.class);
-        books.stream()
-                .forEach(bookVO ->
-                        bookVO.add(
-                                linkTo(methodOn(BookController.class).findById(bookVO.getKey())).withSelfRel())
-                        );
-        return books;
+
+        //acha todos os livros
+        Page<Book> bookPage = repository.findAll(pageable);
+
+        //parseia os livros pra livrosVO
+        Page<BookVO> bookVOPage = bookPage.map(entity -> DozerMapper.parseObject(entity, BookVO.class));
+
+        //adiciona o hateoas para cada livro individualmente
+        bookVOPage.map(bookVO ->
+                bookVO.add(linkTo(methodOn(BookController.class).findById(bookVO.getKey())).withSelfRel()));
+
+
+        //cria o link hateoas para pagina
+        Link link = linkTo(methodOn(BookController.class).findAll(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                "asc")).withSelfRel();
+
+        //adiciona o link hateoas na pagina
+        return assembler.toModel(bookVOPage, link);
     }
 
 
