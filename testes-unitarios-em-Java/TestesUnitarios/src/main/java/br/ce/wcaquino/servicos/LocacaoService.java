@@ -23,7 +23,28 @@ public class LocacaoService {
 		locacao.setFilmes(filmes);
 		locacao.setUsuario(usuario);
 		locacao.setDataLocacao(new Date());
-		locacao.setValor(getMoviesTotal(filmes));
+
+		//apply discount
+
+		Double discount = 0.0;
+		switch (filmes.size()){
+			case 3:
+				discount = 0.25;
+				break;
+			case 4:
+				discount = 0.5;
+				break;
+			case 5:
+				discount = 0.75;
+				break;
+			case 6:
+				discount = 1.0;
+				break;
+			default:
+				System.out.println("No discount applied...");
+		}
+
+		locacao.setValor(getMoviesTotal(filmes) - movieDiscount(filmes, discount));
 
 		//Entrega no dia seguinte
 		Date dataEntrega = new Date();
@@ -34,6 +55,11 @@ public class LocacaoService {
 		//TODO adicionar método para salvar
 		
 		return locacao;
+	}
+
+	private Double movieDiscount(List<Filme> filmes, Double discount) {
+		Double movieValue = filmes.get(filmes.size() - 1).getPrecoLocacao();
+		return movieValue * discount;
 	}
 
 	private double getMoviesTotal(List<Filme> filmes) {
