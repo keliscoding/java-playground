@@ -10,11 +10,10 @@ import org.hamcrest.CoreMatchers;
 import org.junit.*;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static org.hamcrest.CoreMatchers.*;
@@ -118,88 +117,6 @@ public class LocacaoServiceTest {
 
         service.alugarFilme(usuario, null);
 
-    }
-
-    @Test
-    public void shouldApply25DiscountToLastMovie() throws FilmeSemEstoqueException, LocadoraException {
-        //cenario
-        List<Filme> filmes = Arrays.asList(
-                new Filme("Filme 1", 1, 5.0),
-                new Filme("Filme 2", 3, 5.0),
-                new Filme("Filme 3", 5, 5.0)
-        );
-        Usuario usuario = new Usuario("Usuario 1");
-
-        //acao
-
-        Locacao locacao = service.alugarFilme(usuario, filmes);
-
-        //verificacao
-
-        assertThat(locacao.getValor(), is(13.75));
-    }
-
-    @Test
-    public void shouldApply50DiscountToLastMovie() throws FilmeSemEstoqueException, LocadoraException {
-        //cenario
-        List<Filme> filmes = Arrays.asList(
-                new Filme("Filme 1", 1, 5.0),
-                new Filme("Filme 2", 3, 5.0),
-                new Filme("Filme 3", 5, 5.0),
-                new Filme("Filme 4", 5, 5.0)
-        );
-        Usuario usuario = new Usuario("Usuario 1");
-
-        //acao
-
-        Locacao locacao = service.alugarFilme(usuario, filmes);
-
-        //verificacao
-
-        assertThat(locacao.getValor(), is(17.50));
-    }
-
-    @Test
-    public void shouldApply75DiscountToLastMovie() throws FilmeSemEstoqueException, LocadoraException {
-        //cenario
-        List<Filme> filmes = Arrays.asList(
-                new Filme("Filme 1", 1, 5.0),
-                new Filme("Filme 2", 3, 5.0),
-                new Filme("Filme 3", 5, 5.0),
-                new Filme("Filme 4", 1, 5.0),
-                new Filme("Filme 5", 3, 5.0)
-        );
-        Usuario usuario = new Usuario("Usuario 1");
-
-        //acao
-
-        Locacao locacao = service.alugarFilme(usuario, filmes);
-
-        //verificacao
-
-        assertThat(locacao.getValor(), is(21.25));
-    }
-
-    @Test
-    public void shouldApply100DiscountToLastMovie() throws FilmeSemEstoqueException, LocadoraException {
-        //cenario
-        List<Filme> filmes = Arrays.asList(
-                new Filme("Filme 1", 1, 5.0),
-                new Filme("Filme 2", 3, 5.0),
-                new Filme("Filme 3", 5, 5.0),
-                new Filme("Filme 4", 1, 5.0),
-                new Filme("Filme 5", 3, 5.0),
-                new Filme("Filme 6", 5, 5.0)
-        );
-        Usuario usuario = new Usuario("Usuario 1");
-
-        //acao
-
-        Locacao locacao = service.alugarFilme(usuario, filmes);
-
-        //verificacao
-
-        assertThat(locacao.getValor(), is(25.0));
     }
 
 }
