@@ -1,6 +1,8 @@
 package br.ce.wcaquino.servicos;
 
 import br.ce.wcaquino.builders.UsuarioBuilder;
+import br.ce.wcaquino.daos.LocacaoDao;
+import br.ce.wcaquino.daos.LocacaoDaoFake;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
@@ -14,6 +16,7 @@ import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.mockito.Mockito;
 
 import java.util.*;
 
@@ -24,6 +27,7 @@ import static br.ce.wcaquino.matchers.CustomMatchers.ehHojeComDiferencaDias;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class LocacaoServiceTest {
 
@@ -40,6 +44,8 @@ public class LocacaoServiceTest {
     @Before
     public void setup() {
         service = new LocacaoService();
+        LocacaoDao dao = new LocacaoDaoFake();
+        service.setDao(dao);
 //        i++;
 //        System.out.println(i);
     }
