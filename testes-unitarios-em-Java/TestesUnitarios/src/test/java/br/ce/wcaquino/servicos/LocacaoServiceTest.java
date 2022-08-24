@@ -44,7 +44,8 @@ public class LocacaoServiceTest {
     @Before
     public void setup() {
         service = new LocacaoService();
-        LocacaoDao dao = new LocacaoDaoFake();
+        // passar flag --add-opens java.base/java.lang=ALL-UNNAMED
+        LocacaoDao dao = mock(LocacaoDao.class);
         service.setDao(dao);
 //        i++;
 //        System.out.println(i);

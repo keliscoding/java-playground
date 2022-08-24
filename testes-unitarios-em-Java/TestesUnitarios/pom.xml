@@ -20,6 +20,7 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
       <version>1.10.19</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
