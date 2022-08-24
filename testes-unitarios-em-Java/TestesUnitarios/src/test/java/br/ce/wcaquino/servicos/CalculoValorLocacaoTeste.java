@@ -1,5 +1,6 @@
 package br.ce.wcaquino.servicos;
 
+import br.ce.wcaquino.builders.FilmeBuilder;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
@@ -14,6 +15,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import static br.ce.wcaquino.builders.FilmeBuilder.*;
+import static br.ce.wcaquino.builders.UsuarioBuilder.umUsuario;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -37,13 +40,13 @@ public class CalculoValorLocacaoTeste {
         service = new LocacaoService();
     }
 
-    private static Filme filme1 = new Filme("Filme 1", 1, 5.0);
-    private static Filme filme2 = new Filme("Filme 2", 3, 5.0);
-    private static Filme filme3 = new Filme("Filme 3", 5, 5.0);
-    private static Filme filme4 = new Filme("Filme 4", 5, 5.0);
-    private static Filme filme5 = new Filme("Filme 5", 5, 5.0);
-    private static Filme filme6 = new Filme("Filme 6", 5, 5.0);
-    private static Filme filme7 = new Filme("Filme 7", 5, 5.0);
+    private static Filme filme1 = umFilme().agora();
+    private static Filme filme2 = umFilme().agora();
+    private static Filme filme3 = umFilme().agora();
+    private static Filme filme4 = umFilme().agora();
+    private static Filme filme5 = umFilme().agora();
+    private static Filme filme6 = umFilme().agora();
+    private static Filme filme7 = umFilme().agora();
 
     @Parameterized.Parameters(name = "{2}")
     public static Collection<Object[]> getParameters() {
@@ -60,7 +63,7 @@ public class CalculoValorLocacaoTeste {
     @Test
     public void shouldCalculateDiscountValue() throws FilmeSemEstoqueException, LocadoraException {
         //cenario
-        Usuario usuario = new Usuario("Usuario 1");
+        Usuario usuario = umUsuario().agora();
 
         //acao
         Locacao locacao = service.alugarFilme(usuario, filmes);
@@ -69,8 +72,8 @@ public class CalculoValorLocacaoTeste {
         assertThat(locacao.getValor(), is(valorLocacao));
     }
 
-    @Test
-    public void print(){
-        System.out.println(valorLocacao);
-    }
+//    @Test
+//    public void print(){
+//        System.out.println(valorLocacao);
+//    }
 }

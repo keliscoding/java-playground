@@ -18,13 +18,13 @@ import org.junit.runners.Suite;
 public class SuiteExecucao {
     //Remova se puder!
 
-    @BeforeClass
-    public static void before(){
-        System.out.println("before class na suite de testes!");
-    }
-
-    @AfterClass
-    public static void after(){
-        System.out.println("after class na suite de testes!");
-    }
+//    @BeforeClass
+//    public static void before(){
+//        System.out.println("before class na suite de testes!");
+//    }
+//
+//    @AfterClass
+//    public static void after(){
+//        System.out.println("after class na suite de testes!");
+//    }
 }

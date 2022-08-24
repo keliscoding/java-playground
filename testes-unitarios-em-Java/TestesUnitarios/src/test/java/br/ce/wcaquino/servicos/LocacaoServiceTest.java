@@ -1,5 +1,6 @@
 package br.ce.wcaquino.servicos;
 
+import br.ce.wcaquino.builders.UsuarioBuilder;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
@@ -16,6 +17,8 @@ import org.junit.runners.Parameterized;
 
 import java.util.*;
 
+import static br.ce.wcaquino.builders.FilmeBuilder.umFilme;
+import static br.ce.wcaquino.builders.UsuarioBuilder.*;
 import static br.ce.wcaquino.matchers.CustomMatchers.ehHoje;
 import static br.ce.wcaquino.matchers.CustomMatchers.ehHojeComDiferencaDias;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
@@ -26,7 +29,7 @@ public class LocacaoServiceTest {
 
     private LocacaoService service;
     //fazer a variavel statica faz ela sair do escopo do teste e o junit para de reinicializar ela
-    private static Integer i = 0;
+//    private static Integer i = 0;
 
     @Rule
     public ErrorCollector error = new ErrorCollector();
@@ -37,8 +40,8 @@ public class LocacaoServiceTest {
     @Before
     public void setup() {
         service = new LocacaoService();
-        i++;
-        System.out.println(i);
+//        i++;
+//        System.out.println(i);
     }
 
     @After
@@ -46,21 +49,21 @@ public class LocacaoServiceTest {
         //System.out.println("After");
     }
 
-    @BeforeClass
-    public static void setupClass() {
-        System.out.println("Before Class");
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-        System.out.println("After Class");
-    }
+//    @BeforeClass
+//    public static void setupClass() {
+//        System.out.println("Before Class");
+//    }
+//
+//    @AfterClass
+//    public static void tearDownClass() {
+//        System.out.println("After Class");
+//    }
 
     @Test
     public void teste() throws Exception {
         //cenario
-        List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 5.0));
-        Usuario usuario = new Usuario("Usuario 1");
+        List<Filme> filmes = Arrays.asList(umFilme().agora());
+        Usuario usuario = umUsuario().agora();
 
         //acao
 
@@ -88,8 +91,9 @@ public class LocacaoServiceTest {
     @Test(expected = FilmeSemEstoqueException.class)
     public void testLocacao_filmeSemEstoque_elegante() throws Exception {
         //cenario
-        List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 0, 5.0));
-        Usuario usuario = new Usuario("Usuario 1");
+        List<Filme> filmes = Arrays.asList(umFilme().semEstoque().agora());
+        Usuario usuario = umUsuario().agora();
+
 
         //acao
 
@@ -101,7 +105,7 @@ public class LocacaoServiceTest {
     @Test
     public void testLocacao_usuarioVazio_robusta() throws FilmeSemEstoqueException {
         //cenario
-        List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 1, 5.0));
+        List<Filme> filmes = Arrays.asList(umFilme().agora());
 
         //acao
         try {
@@ -116,7 +120,7 @@ public class LocacaoServiceTest {
     @Test
     public void testLocacao_filmeVazio_nova() throws Exception {
         //cenario
-        Usuario usuario = new Usuario("Usuario 1");
+        Usuario usuario = umUsuario().agora();
         exception.expect(LocadoraException.class);
         exception.expectMessage("Filme vazio");
 
