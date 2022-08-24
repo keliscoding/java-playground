@@ -16,6 +16,7 @@ import org.junit.runners.Parameterized;
 
 import java.util.*;
 
+import static br.ce.wcaquino.matchers.CustomMatchers.ehHoje;
 import static br.ce.wcaquino.matchers.CustomMatchers.ehHojeComDiferencaDias;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static org.hamcrest.CoreMatchers.*;
@@ -77,6 +78,7 @@ public class LocacaoServiceTest {
 
         //custom matcher =)
         error.checkThat(locacao.getDataRetorno(), ehHojeComDiferencaDias(1));
+        error.checkThat(locacao.getDataLocacao(), ehHoje());
     }
 
     //formas de tratar um teste que espera receber uma exceção
