@@ -22,6 +22,7 @@ import static br.ce.wcaquino.builders.FilmeBuilder.*;
 import static br.ce.wcaquino.builders.UsuarioBuilder.umUsuario;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 //DATA DRIVEN TEST
 @RunWith(Parameterized.class)
@@ -42,7 +43,11 @@ public class CalculoValorLocacaoTeste {
     public void setup() {
         service = new LocacaoService();
         LocacaoDao dao = Mockito.mock(LocacaoDao.class);
+        EmailService emailService = mock(EmailService.class);
+        SPCService spcService = mock(SPCService.class);
         service.setDao(dao);
+        service.setSpcService(spcService);
+        service.setEmailService(emailService);
     }
 
     private static Filme filme1 = umFilme().agora();

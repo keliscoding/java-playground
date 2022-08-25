@@ -1,37 +1,37 @@
 package br.ce.wcaquino.servicos;
 
-import br.ce.wcaquino.builders.UsuarioBuilder;
 import br.ce.wcaquino.daos.LocacaoDao;
-import br.ce.wcaquino.daos.LocacaoDaoFake;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
-import br.ce.wcaquino.matchers.CustomMatchers;
 import br.ce.wcaquino.utils.DataUtils;
-import org.hamcrest.CoreMatchers;
 import org.junit.*;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.mockito.Mockito;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 import static br.ce.wcaquino.builders.FilmeBuilder.umFilme;
-import static br.ce.wcaquino.builders.UsuarioBuilder.*;
+import static br.ce.wcaquino.builders.LocacaoBuilder.umaLocacao;
+import static br.ce.wcaquino.builders.UsuarioBuilder.umUsuario;
 import static br.ce.wcaquino.matchers.CustomMatchers.ehHoje;
 import static br.ce.wcaquino.matchers.CustomMatchers.ehHojeComDiferencaDias;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 public class LocacaoServiceTest {
 
     private LocacaoService service;
+    private SPCService spcService;
+    private LocacaoDao dao;
+    private EmailService emailService;
     //fazer a variavel statica faz ela sair do escopo do teste e o junit para de reinicializar ela
 //    private static Integer i = 0;
 
@@ -45,8 +45,12 @@ public class LocacaoServiceTest {
     public void setup() {
         service = new LocacaoService();
         // passar flag --add-opens java.base/java.lang=ALL-UNNAMED
-        LocacaoDao dao = mock(LocacaoDao.class);
+        dao = mock(LocacaoDao.class);
+        spcService = mock(SPCService.class);
+        emailService = mock(EmailService.class);
         service.setDao(dao);
+        service.setSpcService(spcService);
+        service.setEmailService(emailService);
 //        i++;
 //        System.out.println(i);
     }
@@ -137,4 +141,58 @@ public class LocacaoServiceTest {
 
     }
 
+    @Test
+    public void naoDeveAlugarFilmeParaNegativadoSPC() throws FilmeSemEstoqueException {
+        //cenario
+        Usuario usuario = umUsuario().agora();
+        List<Filme> filmes = Arrays.asList(umFilme().agora());
+
+        when(spcService.possuiNegativacao(usuario)).thenReturn(true);
+
+        // isso aqui é o mesmo que o de cima
+        //when(spcService.possuiNegativacao(any(Usuario.class))).thenReturn(true);
+
+        //acao
+        try {
+            service.alugarFilme(usuario, filmes);
+        //verificacao
+            Assert.fail();
+        } catch (LocadoraException e) {
+            assertThat(e.getMessage(), is("Usuário Negativado."));
+        }
+
+        verify(spcService).possuiNegativacao(usuario);
+    }
+
+    @Test
+    public void deveEnviarEmailParaLocacoesAtrasadas() {
+        //cenario
+        Usuario usuario = umUsuario().agora();
+        Usuario usuario2 = umUsuario().comNome("Locacao em dia").agora();
+        Usuario usuario3 = umUsuario().comNome("Outro usuario atrasado").agora();
+        List<Locacao> locacaos = Arrays.asList(
+                umaLocacao()
+                        .atrasada()
+                        .comUsuario(usuario)
+                        .agora(),
+                umaLocacao().comUsuario(usuario2).agora(),
+                umaLocacao().atrasada().comUsuario(usuario3).agora()
+        );
+
+        when(dao.obterLocacoesPendentes()).thenReturn(locacaos);
+
+        //acao
+        service.notificarAtrasos();
+
+        //verificacao
+
+        //isso aqui é o mesmo que verificar um usuario de cada vez
+        verify(emailService, times(2)).notificarAtraso(any(Usuario.class));
+
+        //verify(emailService).notificarAtraso(usuario);
+        //verify(emailService).notificarAtraso(usuario3);
+        verify(emailService, never()).notificarAtraso(usuario2);
+        verifyNoMoreInteractions(emailService);
+        //verifyZeroInteractions(spcService);
+    }
 }

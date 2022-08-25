@@ -15,9 +15,12 @@ import br.ce.wcaquino.exceptions.LocadoraException;
 public class LocacaoService {
 
 	private LocacaoDao dao;
+	private SPCService spcService;
+	private EmailService emailService;
 	
 	public Locacao alugarFilme(Usuario usuario, List<Filme> filmes) throws FilmeSemEstoqueException, LocadoraException {
 		if(usuario == null) throw new LocadoraException("Usuario vazio");
+		if(spcService.possuiNegativacao(usuario)) throw new LocadoraException("Usuário Negativado.");
 		if(filmes == null || filmes.isEmpty()) throw new LocadoraException("Filme vazio");
 		if(filmeSemEstoque(filmes)) throw new FilmeSemEstoqueException("Filme sem estoque");
 
@@ -64,6 +67,24 @@ public class LocacaoService {
 
 	public void setDao(LocacaoDao dao) {
 		this.dao = dao;
+	}
+
+	public void setSpcService(SPCService spcService) {
+		this.spcService = spcService;
+	}
+
+	public void setEmailService(EmailService emailService) {
+		this.emailService = emailService;
+	}
+
+	public void notificarAtrasos() {
+		List<Locacao> locacoes = dao.obterLocacoesPendentes();
+		locacoes.stream()
+				.forEach(locacao -> {
+					if(locacao.getDataRetorno().before(new Date())) {
+						emailService.notificarAtraso(locacao.getUsuario());
+					}
+				});
 	}
 
 	private Double movieDiscount(List<Filme> filmes, Double discount) {
