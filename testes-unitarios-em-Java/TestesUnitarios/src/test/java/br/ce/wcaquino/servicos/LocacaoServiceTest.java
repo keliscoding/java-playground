@@ -10,6 +10,9 @@ import br.ce.wcaquino.utils.DataUtils;
 import org.junit.*;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -28,9 +31,14 @@ import static org.mockito.Mockito.*;
 
 public class LocacaoServiceTest {
 
+    @InjectMocks
     private LocacaoService service;
+
+    @Mock
     private SPCService spcService;
+    @Mock
     private LocacaoDao dao;
+    @Mock
     private EmailService emailService;
     //fazer a variavel statica faz ela sair do escopo do teste e o junit para de reinicializar ela
 //    private static Integer i = 0;
@@ -43,16 +51,7 @@ public class LocacaoServiceTest {
 
     @Before
     public void setup() {
-        service = new LocacaoService();
-        // passar flag --add-opens java.base/java.lang=ALL-UNNAMED
-        dao = mock(LocacaoDao.class);
-        spcService = mock(SPCService.class);
-        emailService = mock(EmailService.class);
-        service.setDao(dao);
-        service.setSpcService(spcService);
-        service.setEmailService(emailService);
-//        i++;
-//        System.out.println(i);
+        MockitoAnnotations.initMocks(this);
     }
 
     @After

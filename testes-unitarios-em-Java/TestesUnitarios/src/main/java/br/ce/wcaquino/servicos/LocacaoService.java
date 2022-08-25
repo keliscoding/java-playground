@@ -65,18 +65,6 @@ public class LocacaoService {
 		return locacao;
 	}
 
-	public void setDao(LocacaoDao dao) {
-		this.dao = dao;
-	}
-
-	public void setSpcService(SPCService spcService) {
-		this.spcService = spcService;
-	}
-
-	public void setEmailService(EmailService emailService) {
-		this.emailService = emailService;
-	}
-
 	public void notificarAtrasos() {
 		List<Locacao> locacoes = dao.obterLocacoesPendentes();
 		locacoes.stream()
