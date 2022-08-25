@@ -10,6 +10,7 @@ import br.ce.wcaquino.utils.DataUtils;
 import org.junit.*;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -212,4 +213,25 @@ public class LocacaoServiceTest {
         service.alugarFilme(usuario, filmes);
     }
 
+
+    //capturando argumentos
+    @Test
+    public void deveProrrogarUmaLocacao() {
+        //cenario
+        Locacao locacao = umaLocacao().agora();
+
+        //acao
+        service.prorrogarLocacao(locacao, 3);
+
+        //verificacao
+        ArgumentCaptor<Locacao> argumentCaptor = ArgumentCaptor.forClass(Locacao.class);
+        verify(dao).salvar(argumentCaptor.capture());
+        Locacao locacaoRetornada = argumentCaptor.getValue();
+
+        //essa rule aqui serve para poder capturar todos os erros que acontecem no teste em vez de
+        //um de cada vez
+        error.checkThat(locacaoRetornada.getValor(), is(12.0));
+        error.checkThat(locacaoRetornada.getDataLocacao(), ehHoje());
+        error.checkThat(locacaoRetornada.getDataRetorno(), ehHojeComDiferencaDias(3));
+    }
 }
