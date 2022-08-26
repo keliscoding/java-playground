@@ -4,12 +4,14 @@ import io.github.zam0k.api.domain.User;
 import io.github.zam0k.api.domain.dto.UserDTO;
 import io.github.zam0k.api.repositories.UserRepository;
 import io.github.zam0k.api.services.UserService;
+import io.github.zam0k.api.services.exceptions.DataIntegrityViolationException;
 import io.github.zam0k.api.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,7 +34,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserDTO dto) {
+        findByEmail(dto);
         User user = mapper.map(dto, User.class);
         return repository.save(user);
+    }
+
+    private void findByEmail(UserDTO dto) {
+        Optional<User> user = repository.findByEmail(dto.getEmail());
+        if(user.isPresent()) throw new DataIntegrityViolationException("Email já cadastrado");
     }
 }
