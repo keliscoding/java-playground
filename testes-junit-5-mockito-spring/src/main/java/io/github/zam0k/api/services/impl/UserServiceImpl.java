@@ -3,6 +3,7 @@ package io.github.zam0k.api.services.impl;
 import io.github.zam0k.api.domain.User;
 import io.github.zam0k.api.repositories.UserRepository;
 import io.github.zam0k.api.services.UserService;
+import io.github.zam0k.api.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Integer id) {
-        return repository.findById(id).orElseThrow(RuntimeException::new);
+        return repository.findById(id).orElseThrow(ObjectNotFoundException::new);
     }
 }
