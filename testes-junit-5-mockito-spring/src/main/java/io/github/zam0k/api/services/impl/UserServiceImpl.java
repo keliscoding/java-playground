@@ -1,9 +1,11 @@
 package io.github.zam0k.api.services.impl;
 
 import io.github.zam0k.api.domain.User;
+import io.github.zam0k.api.domain.dto.UserDTO;
 import io.github.zam0k.api.repositories.UserRepository;
 import io.github.zam0k.api.services.UserService;
 import io.github.zam0k.api.services.exceptions.ObjectNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private ModelMapper mapper;
+
     @Override
     public User findById(Integer id) {
         return repository.findById(id).orElseThrow(ObjectNotFoundException::new);
@@ -23,5 +28,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public User create(UserDTO dto) {
+        User user = mapper.map(dto, User.class);
+        return repository.save(user);
     }
 }
