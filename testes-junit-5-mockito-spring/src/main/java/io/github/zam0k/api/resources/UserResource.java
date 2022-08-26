@@ -1,7 +1,9 @@
 package io.github.zam0k.api.resources;
 
 import io.github.zam0k.api.domain.User;
+import io.github.zam0k.api.domain.dto.UserDTO;
 import io.github.zam0k.api.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserResource {
 
     @Autowired
+    private ModelMapper mapper;
+
+    @Autowired
     private UserService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Integer id){
+    public ResponseEntity<UserDTO> findById(@PathVariable Integer id){
         User user = service.findById(id);
-        return ResponseEntity.ok(user);
+        UserDTO dto = mapper.map(user, UserDTO.class);
+        return ResponseEntity.ok(dto);
     }
 }
