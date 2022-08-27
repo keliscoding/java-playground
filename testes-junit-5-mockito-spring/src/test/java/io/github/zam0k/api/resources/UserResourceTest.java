@@ -39,8 +39,8 @@ class UserResourceTest {
     public static final String EMAIL = "valdir@mail.com";
     public static final String PASSWORD = "123";
 
-    private User user;
-    private UserDTO userDTO;
+    private User user = new User();
+    private UserDTO userDTO = new UserDTO();
 
 
     @BeforeEach
