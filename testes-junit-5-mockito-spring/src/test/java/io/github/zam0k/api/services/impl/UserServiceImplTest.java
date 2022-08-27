@@ -26,6 +26,7 @@ class UserServiceImplTest {
     public static final String NAME = "Valdir";
     public static final String EMAIL = "valdir@mail.com";
     public static final String PASSWORD = "123";
+    public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado.";
 
     @InjectMocks
     private UserServiceImpl service;
@@ -67,7 +68,7 @@ class UserServiceImplTest {
             service.findById(ID);
         } catch (Exception ex) {
             assertEquals(ObjectNotFoundException.class, ex.getClass());
-            assertEquals("Objeto não encontrado.", ex.getMessage());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
         }
     }
 
@@ -140,12 +141,24 @@ class UserServiceImplTest {
     }
 
     @Test
-    void whenDeleteThenReturnSucess() {
+    void whenDeleteThenReturnSuccess() {
         when(repository.findById(anyInt())).thenReturn(optionalUser);
         doNothing().when(repository).deleteById(anyInt());
 
         service.delete(ID);
         verify(repository, times(1)).deleteById(anyInt());
+    }
+
+    @Test
+    void whenDeleteThenReturnObjectNotFoundException() {
+        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException());
+
+        try {
+            service.delete(ID);
+        } catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
+        }
     }
 
     private void startUser() {
