@@ -1,6 +1,12 @@
 spring:
   application:
     name: greeting-service
+#cuidado com essa parte pq é oculto por padrão por causa de segurança
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
 greeting-service:
   greeting: "Olá"
   default-value: "Mundo"
