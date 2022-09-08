@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: greeting-service
+#cuidado com essa parte pq eh oculto por padrao por causa de seguranca
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+greeting-service:
+  greeting: "Ciao"
+  default-value: "Mondo"
