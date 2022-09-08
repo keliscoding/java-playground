@@ -8,13 +8,14 @@ spring:
     import: optional:configserver:http://localhost:8888/
   cloud:
     config:
-      profile: perf
+      profile: prod
 #cuidado com essa parte pq é oculto por padrão por causa de segurança
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: '*'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: #'*'
+          - refresh
 greeting-service:
   greeting: "Olá"
   default-value: "Mundo"
