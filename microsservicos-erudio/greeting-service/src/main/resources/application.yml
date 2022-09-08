@@ -1,6 +1,14 @@
+# antigamente esse arquivo se chamava bootstrap.properties ou bootstrap.yml
+server:
+  port: 8080
 spring:
   application:
     name: greeting-service
+  config:
+    import: optional:configserver:http://localhost:8888/
+  cloud:
+    config:
+      profile: perf
 #cuidado com essa parte pq é oculto por padrão por causa de segurança
 #management:
 #  endpoints:
