@@ -1,4 +1,4 @@
-package io.github.zam0k.greetingservice;
+package io.github.zam0k.greetingservice.model;
 
 public class Greeting {
 
