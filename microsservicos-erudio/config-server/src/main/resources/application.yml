@@ -3,6 +3,14 @@ server:
 spring:
   application:
     name: config-server
-  profiles:
-    active:
-      - native
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/zam0k/config-server
+#          se usar um repositorio privado, deve colocar as seguintes propriedades
+#          username: zam0k
+#          password: password
+          default-label: main
+          search-paths:
+            - 'greeting-service*'
