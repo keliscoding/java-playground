@@ -1,97 +1,134 @@
 package io.github.zam0k.bookservice.model;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
+import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.TemporalType.DATE;
+
+@Entity(name = "book")
 public class Book {
-    private Long id;
-    private String author;
-    private Date launchDate;
-    private BigDecimal price;
-    private String title;
-    private String currency;
-    private String environment;
 
-    public Book() {
-    }
+  @Id
+  @GeneratedValue(strategy = IDENTITY)
+  private Long id;
 
-    public Book(Long id, String author, String title, Date launchDate, BigDecimal price, String currency, String environment) {
-        this.id = id;
-        this.author = author;
-        this.launchDate = launchDate;
-        this.price = price;
-        this.title = title;
-        this.currency = currency;
-        this.environment = environment;
-    }
+  @Column(name = "author", nullable = false, length = 180)
+  private String author;
 
-    public Long getId() {
-        return id;
-    }
+  @Column(name = "launch_date", nullable = false)
+  @Temporal(DATE)
+  private Date launchDate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  @Column(nullable = false)
+  private BigDecimal price;
 
-    public String getAuthor() {
-        return author;
-    }
+  @Column(nullable = false, length = 250)
+  private String title;
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+  @Transient private String currency;
+  @Transient private String environment;
 
-    public Date getLaunchDate() {
-        return launchDate;
-    }
+  public Book() {}
 
-    public void setLaunchDate(Date launchDate) {
-        this.launchDate = launchDate;
-    }
+  public Book(
+      Long id,
+      String author,
+      String title,
+      Date launchDate,
+      BigDecimal price,
+      String currency,
+      String environment) {
+    this.id = id;
+    this.author = author;
+    this.launchDate = launchDate;
+    this.price = price;
+    this.title = title;
+    this.currency = currency;
+    this.environment = environment;
+  }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public String getAuthor() {
+    return author;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public void setAuthor(String author) {
+    this.author = author;
+  }
 
-    public String getCurrency() {
-        return currency;
-    }
+  public Date getLaunchDate() {
+    return launchDate;
+  }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
+  public void setLaunchDate(Date launchDate) {
+    this.launchDate = launchDate;
+  }
 
-    public String getEnvironment() {
-        return environment;
-    }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    public void setEnvironment(String environment) {
-        this.environment = environment;
-    }
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return Objects.equals(getId(), book.getId()) && Objects.equals(getAuthor(), book.getAuthor()) && Objects.equals(getLaunchDate(), book.getLaunchDate()) && Objects.equals(getPrice(), book.getPrice()) && Objects.equals(getTitle(), book.getTitle()) && Objects.equals(getCurrency(), book.getCurrency()) && Objects.equals(getEnvironment(), book.getEnvironment());
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getAuthor(), getLaunchDate(), getPrice(), getTitle(), getCurrency(), getEnvironment());
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public String getCurrency() {
+    return currency;
+  }
+
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
+
+  public String getEnvironment() {
+    return environment;
+  }
+
+  public void setEnvironment(String environment) {
+    this.environment = environment;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Book book = (Book) o;
+    return Objects.equals(getId(), book.getId())
+        && Objects.equals(getAuthor(), book.getAuthor())
+        && Objects.equals(getLaunchDate(), book.getLaunchDate())
+        && Objects.equals(getPrice(), book.getPrice())
+        && Objects.equals(getTitle(), book.getTitle())
+        && Objects.equals(getCurrency(), book.getCurrency())
+        && Objects.equals(getEnvironment(), book.getEnvironment());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        getId(),
+        getAuthor(),
+        getLaunchDate(),
+        getPrice(),
+        getTitle(),
+        getCurrency(),
+        getEnvironment());
+  }
 }
