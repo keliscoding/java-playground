@@ -1,17 +1,14 @@
 package io.github.zam0k.bookservice.controller;
 
 import io.github.zam0k.bookservice.model.Book;
+import io.github.zam0k.bookservice.proxy.CambioProxy;
 import io.github.zam0k.bookservice.repository.BookRepository;
-import io.github.zam0k.bookservice.response.Cambio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
 
 @RestController
 @RequestMapping("book-service")
@@ -21,6 +18,8 @@ public class BookController {
 
   @Autowired private BookRepository repository;
 
+  @Autowired private CambioProxy cambioProxy;
+
   @GetMapping("/{id}/{currency}")
   public Book findBook(@PathVariable("id") Long id, @PathVariable("currency") String currency) {
 
@@ -28,19 +27,9 @@ public class BookController {
 
     var port = environment.getProperty("local.server.port");
 
-    HashMap<String, String> params = new HashMap<>();
+    var cambio = cambioProxy.getCambio(book.getPrice(), "USD", currency);
 
-    params.put("amount", book.getPrice().toString());
-    params.put("from", "USD");
-    params.put("to", currency);
-
-    var response = new RestTemplate()
-            .getForEntity("http://localhost:8000/cambio-service/{amount}/{from}/{to}",
-                    Cambio.class, params);
-
-    var cambio = response.getBody();
-
-    book.setEnvironment(port);
+    book.setEnvironment(port + " FEIGN");
     book.setPrice(cambio.getConvertedValue());
 
     return book;
