@@ -4,6 +4,13 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+resilience4j:
+  retry:
+    instances:
+      foo-bar:
+        maxAttempts: 5
+      default:
+        maxAttempts: 4
 spring:
   application:
     name: book-service
