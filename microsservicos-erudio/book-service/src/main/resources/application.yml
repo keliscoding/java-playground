@@ -45,3 +45,7 @@ spring:
       - book-service
     user: root
     password: root
+spring-doc:
+  show-actuator: true
+  api-docs:
+    path: book-service/v3/api-docs
