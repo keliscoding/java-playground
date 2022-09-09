@@ -15,7 +15,7 @@ public class FooBarController {
     private Logger logger = LoggerFactory.getLogger(FooBarController.class);
 
     @GetMapping("/foo-bar")
-    @Retry(name = "foo-bar")
+    @Retry(name = "foo-bar", fallbackMethod = "fallbackMethod")
     public String fooBar() {
         logger.info("Request to foo-bar is received");
 
@@ -23,5 +23,10 @@ public class FooBarController {
                 .getForEntity("http://localhost:8080/foo-bar", String.class);
 //        return "Foo Bar!";
         return response.getBody();
+    }
+
+    public String fallbackMethod(Exception ex) {
+        // esse metodo pode receber diferentes tipos de exceptions e trata-las de modo diferente
+        return "fallbackMethod foo-bar!!!";
     }
 }
