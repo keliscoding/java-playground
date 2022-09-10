@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  zipkin-server:
+    image: openzipkin/zipkin:2.23.2
+    ports:
+      - 9411:9411
+    networks:
+      - zamok-network
+  naming-server:
+    image: kawokkun/naming-server:0.0.1-SNAPSHOT
+    ports:
+      - 8761:8761
+    networks:
+      - zamok-network
+  api-gateway:
+    image: kawokkun/api-gateway:0.0.1-SNAPSHOT
+    ports:
+      - 8765:8765
+    depends_on:
+      - naming-server
+    environment:
+      SPRING.ZIPKIN.BASE-URL: http://zipkin-server:9411/
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/
+    networks:
+      - zamok-network
+networks:
+  zamok-network:
+    driver: bridge
