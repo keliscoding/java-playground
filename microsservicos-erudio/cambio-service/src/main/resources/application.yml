@@ -25,6 +25,9 @@ spring:
       - cambio_service
     user: root
     password: root
+  sleuth:
+    sampler:
+      probability: 1.0 # 0.05 em prod
 spring-doc:
   api-docs:
     path: cambio-service/v3/api-docs

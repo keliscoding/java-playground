@@ -45,6 +45,9 @@ spring:
       - book-service
     user: root
     password: root
+  sleuth:
+    sampler:
+      probability: 1.0 # 0.05 em prod
 spring-doc:
   show-actuator: true
   api-docs:
