@@ -1,0 +1,23 @@
+scalar BigDecimal
+
+type Produto {
+    id: ID!
+    nome: String!
+    valor: BigDecimal!
+}
+
+input ProdutoInput {
+    id: ID
+    nome: String!
+    valor: BigDecimal!
+}
+
+extend type Query {
+    produto(id: ID!): Produto
+    produtos: [Produto]!
+}
+
+extend type Mutation {
+    saveProduto(produto:ProdutoInput):Produto!
+    deleteProduto(id: ID!): Boolean!
+}
