@@ -56,3 +56,13 @@ type Mutation {
 #    }
 #}
 
+# query com variaveis
+
+#query NomeDaQuery ($id: ID!){
+#    cliente(id:$id) {
+#        id,
+#        nome,
+#        email
+#    }
+#}
+
