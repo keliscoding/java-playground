@@ -1,3 +1,8 @@
+#schema {
+#    query: Query
+#    mutation: Mutation
+#}
+
 type Query {
     hello:String
     soma(a: Int, b: Int): Int
@@ -6,3 +11,48 @@ type Query {
 type Mutation {
 
 }
+
+# Alias em consultas:
+#{
+#    c1: cliente(id: 1) {
+#        id,
+#        nome,
+#        email
+#    },
+#    c2: cliente(id: 2) {
+#        id,
+#        nome,
+#        email
+#    }
+#}
+
+# Fragments:
+
+#fragment fragCliente on Cliente {
+#    id, nome
+#}
+
+#{
+#    c1: cliente(id: 1) {
+#       ...fragCliente
+#    },
+#    c2: cliente(id: 2) {
+#       ...fragCliente
+#    }
+#}
+
+# Tipos nulos no graphql, nullability
+
+#type Query {
+#    hello:String! -> "!" indica que não pode retornar nulo
+#    soma(a: Int, b: Int): Int
+#}
+
+# input type
+
+#mutation {
+#    saveCliente(cliente: {nome: "Kelly Castelo", email: "kelly@gmail.com"}){
+#        id, nome, email
+#    }
+#}
+

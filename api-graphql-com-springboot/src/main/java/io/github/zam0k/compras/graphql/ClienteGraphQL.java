@@ -4,6 +4,7 @@ import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import io.github.zam0k.compras.model.Cliente;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,8 +23,10 @@ public class ClienteGraphQL implements GraphQLQueryResolver, GraphQLMutationReso
     return clienteService.findAll();
   }
 
-  public Cliente saveCliente(Long id, String nome, String email) {
-    Cliente c = new Cliente(id, nome, email);
+  public Cliente saveCliente(ClienteInput clienteInput) {
+    ModelMapper m = new ModelMapper();
+    Cliente c = m.map(clienteInput, Cliente.class);
+
     return clienteService.save(c);
   }
 
