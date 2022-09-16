@@ -4,9 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.OffsetDateTime;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -17,11 +15,18 @@ public class Compra {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    private LocalDateTime data;
+    private OffsetDateTime data;
     private Integer quantidade;
     private String status;
     @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
-    @OneToMany
-    private List<Produto> produto;
+    @ManyToOne
+    @JoinColumn(name = "produto_id", nullable = false)
+    private Produto produto;
+
+    @PrePersist
+    public void insertData() {
+        this.data = OffsetDateTime.now();
+    }
 }

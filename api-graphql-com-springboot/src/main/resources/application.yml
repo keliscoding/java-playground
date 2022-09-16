@@ -14,11 +14,3 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: none
-
-logging:
-  pattern:
-    console:%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} 0 %msg%n
-  level:
-    org:
-      hibernate:
-        SQL: debug

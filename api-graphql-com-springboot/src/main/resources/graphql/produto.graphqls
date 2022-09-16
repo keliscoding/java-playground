@@ -1,5 +1,3 @@
-scalar BigDecimal
-
 type Produto {
     id: ID!
     nome: String!

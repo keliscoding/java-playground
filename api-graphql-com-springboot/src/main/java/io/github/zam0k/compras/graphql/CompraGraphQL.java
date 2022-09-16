@@ -1,8 +1,8 @@
 package io.github.zam0k.compras.graphql;
 
-import io.github.zam0k.compras.graphql.inputs.ProdutoInput;
-import io.github.zam0k.compras.model.Produto;
-import io.github.zam0k.compras.service.ProdutoService;
+import io.github.zam0k.compras.graphql.inputs.CompraInput;
+import io.github.zam0k.compras.model.Compra;
+import io.github.zam0k.compras.service.CompraService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -13,26 +13,27 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class ProdutoGraphQL {
-  private final ProdutoService service;
+public class CompraGraphQL {
+
+  private final CompraService service;
 
   @QueryMapping
-  public Produto produto(@Argument Long id) {
+  public Compra compra(@Argument Long id) {
     return service.findById(id);
   }
 
   @QueryMapping
-  public List<Produto> produtos() {
+  public List<Compra> compras() {
     return service.findAll();
   }
 
   @MutationMapping
-  public Produto saveProduto(@Argument("produto") ProdutoInput input) {
+  public Compra saveCompra(@Argument("compra") CompraInput input) {
     return service.save(input);
   }
 
   @MutationMapping
-  public Boolean deleteProduto(Long id) {
+  public Boolean deleteCompra(Long id) {
     return service.deleteById(id);
   }
 }

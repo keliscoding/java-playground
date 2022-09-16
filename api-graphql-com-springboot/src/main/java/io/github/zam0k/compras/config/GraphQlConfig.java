@@ -1,17 +1,15 @@
 package io.github.zam0k.compras.config;
 
-import graphql.scalars.ExtendedScalars;
-import graphql.schema.idl.RuntimeWiring;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
-import static graphql.scalars.ExtendedScalars.GraphQLBigDecimal;
+import static graphql.scalars.ExtendedScalars.*;
 
 @Configuration
 public class GraphQlConfig {
-
     @Bean
-    public void bigDecimalScalar() {
-        RuntimeWiring.newRuntimeWiring().scalar(GraphQLBigDecimal);
+  public RuntimeWiringConfigurer runtimeWiringConfigurer() {
+        return wiringBuilder -> wiringBuilder.scalar(GraphQLBigDecimal).scalar(DateTime).scalar(PositiveInt);
     }
 }

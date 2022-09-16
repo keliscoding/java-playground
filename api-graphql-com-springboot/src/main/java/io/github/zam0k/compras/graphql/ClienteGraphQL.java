@@ -1,35 +1,38 @@
 package io.github.zam0k.compras.graphql;
 
-import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import io.github.zam0k.compras.graphql.inputs.ClienteInput;
 import io.github.zam0k.compras.model.Cliente;
+import io.github.zam0k.compras.service.ClienteService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-@Component
+@Controller
 @RequiredArgsConstructor
-public class ClienteGraphQL implements GraphQLQueryResolver, GraphQLMutationResolver {
+public class ClienteGraphQL {
 
   private final ClienteService clienteService;
 
-  public Cliente cliente(Long id) {
+  @QueryMapping
+  public Cliente cliente(@Argument Long id) {
     return clienteService.findById(id);
   }
 
+  @QueryMapping
   public List<Cliente> clientes() {
     return clienteService.findAll();
   }
 
-  public Cliente saveCliente(ClienteInput clienteInput) {
-    ModelMapper m = new ModelMapper();
-    Cliente c = m.map(clienteInput, Cliente.class);
-
-    return clienteService.save(c);
+  @MutationMapping
+  public Cliente saveCliente(@Argument("cliente")  ClienteInput input) {
+    return clienteService.save(input);
   }
 
+  @MutationMapping
   public Boolean deleteCliente(Long id) {
     return clienteService.deleteById(id);
   }

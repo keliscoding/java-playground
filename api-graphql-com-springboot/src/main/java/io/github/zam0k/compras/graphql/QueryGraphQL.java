@@ -1,18 +1,21 @@
 package io.github.zam0k.compras.graphql;
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
 
-@Component
+@Controller
 @RequiredArgsConstructor
-public class QueryGraphQL implements GraphQLQueryResolver {
+public class QueryGraphQL {
 
+    @QueryMapping
     public String hello() {
         return "Hello GraphQL";
     }
 
-    public int soma(int a, int b) {
+    @QueryMapping
+    public int soma(@Argument int a, @Argument int b) {
         return a + b;
     }
 

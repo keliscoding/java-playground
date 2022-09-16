@@ -1,8 +1,10 @@
-package io.github.zam0k.compras.graphql;
+package io.github.zam0k.compras.service;
 
+import io.github.zam0k.compras.graphql.inputs.ClienteInput;
 import io.github.zam0k.compras.model.Cliente;
 import io.github.zam0k.compras.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,7 +24,9 @@ public class ClienteService {
   }
 
   @Transactional
-  public Cliente save(Cliente c) {
+  public Cliente save(ClienteInput input) {
+    ModelMapper m = new ModelMapper();
+    Cliente c = m.map(input, Cliente.class);
     return repository.save(c);
   }
 

@@ -1,4 +1,4 @@
-package io.github.zam0k.compras.graphql;
+package io.github.zam0k.compras.graphql.inputs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

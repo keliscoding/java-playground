@@ -3,6 +3,10 @@
 #    mutation: Mutation
 #}
 
+scalar BigDecimal
+scalar DateTime
+scalar PositiveInt
+
 type Query {
     hello:String
     soma(a: Int, b: Int): Int
