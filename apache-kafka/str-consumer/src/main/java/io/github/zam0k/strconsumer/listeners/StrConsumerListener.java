@@ -13,8 +13,17 @@ public class StrConsumerListener {
             topics = "str-topic",
             containerFactory = "strContainerFactory"
     )
-    public void listener(String message) {
-        log.info("receive message {}", message);
+    public void create(String message) {
+        log.info("CREATE ::: Receive message {}", message);
+    }
+
+    @KafkaListener(
+            groupId = "group-1",
+            topics = "str-topic",
+            containerFactory = "strContainerFactory"
+    )
+    public void log(String message) {
+        log.info("LOG ::: Receive message {}", message);
     }
 
 }
