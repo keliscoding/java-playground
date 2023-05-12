@@ -3,6 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
 	>
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -10,24 +12,27 @@
 </h:head>
 <h:body>
 	<h1>Cadastro de pessoa</h1>
-	<h:form>
+	<h:form id="form">
 		<h:panelGrid columns="2">
-			<h:outputText value="Nome"/>
-			<h:inputText value="#{pessoaController.pessoa.nome}"/>
-			<h:outputText value="Email"/>
-			<h:inputText value="#{pessoaController.pessoa.email}"/>
-			<h:outputText/>
-			<h:commandButton value="Adicionar" action="#{pessoaController.adicionar}"/>
+			<p:outputLabel value="Nome"/>
+			<p:inputText value="#{pessoaController.pessoa.nome}"/>
+			<p:outputLabel value="Email"/>
+			<p:inputText value="#{pessoaController.pessoa.email}"/>
+			<p:outputLabel/>
+			<p:commandButton value="Adicionar" action="#{pessoaController.adicionar}" update="form tabelaPessoa"/>
 		</h:panelGrid>
 	</h:form>
 	
 	<h1>Lista de pessoas</h1>
-	<h:dataTable value="#{pessoaController.pessoas}" var="p" border="1">
-		<h:column>#{p.nome}</h:column>
-		<h:column>#{p.email}</h:column>
-		<h:column>
-			<h:button value="Editar" outcome="/paginas/Sucesso.xhtml?nome=#{p.nome}"/>
-		</h:column>
-	</h:dataTable>
+	<p:dataTable value="#{pessoaController.pessoas}" 
+		var="p" 
+		border="1" 
+		id="tabelaPessoa">
+		<p:column headerText="Nome">#{p.nome}</p:column>
+		<p:column headerText="E-mail">#{p.email}</p:column>
+		<p:column headerText="Editar">
+			<p:button value="Editar" outcome="/paginas/Sucesso.xhtml?nome=#{p.nome}"/>
+		</p:column>
+	</p:dataTable>
 </h:body>
 </html>

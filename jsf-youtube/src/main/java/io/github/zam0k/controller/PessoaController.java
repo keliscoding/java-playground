@@ -24,7 +24,8 @@ public class PessoaController implements Serializable {
 	public String adicionar() {
 		pessoas.add(pessoa);
 		this.limpar();
-		return "paginas/Sucesso";
+		//return "paginas/Sucesso";
+		return null;
 	}
 	
 	private void limpar() {
