@@ -25,6 +25,9 @@
 	<h:dataTable value="#{pessoaController.pessoas}" var="p" border="1">
 		<h:column>#{p.nome}</h:column>
 		<h:column>#{p.email}</h:column>
+		<h:column>
+			<h:button value="Editar" outcome="/paginas/Sucesso.xhtml?nome=#{p.nome}"/>
+		</h:column>
 	</h:dataTable>
 </h:body>
 </html>
