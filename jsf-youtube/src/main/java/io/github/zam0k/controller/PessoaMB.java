@@ -12,7 +12,7 @@ import io.github.zam0k.model.Pessoa;
 
 @Named
 @SessionScoped
-public class PessoaController implements Serializable {
+public class PessoaMB implements Serializable {
 
 	private static final long serialVersionUID = 2656246008852622498L;
 	

@@ -19,17 +19,17 @@
 		<p:panel header="Cadastro de clientes">
 			<h:panelGrid columns="2">
 				<p:outputLabel value="Nome"/>
-				<p:inputText value="#{pessoaController.pessoa.nome}" size="50"/>
+				<p:inputText value="#{pessoaMB.pessoa.nome}" size="50"/>
 				<p:outputLabel value="Email"/>
-				<p:inputText value="#{pessoaController.pessoa.email}" size="50"/>
+				<p:inputText value="#{pessoaMB.pessoa.email}" size="50"/>
 				<p:outputLabel/>
-				<p:commandButton value="Adicionar" action="#{pessoaController.adicionar}" update="form tabelaPessoa"/>
+				<p:commandButton value="Adicionar" action="#{pessoaMB.adicionar}" update="form tabelaPessoa"/>
 			</h:panelGrid>
 		</p:panel>
 	</h:form>
 	
 	<h1>Lista de pessoas</h1>
-	<p:dataTable value="#{pessoaController.pessoas}" 
+	<p:dataTable value="#{pessoaMB.pessoas}" 
 		var="p" 
 		border="1" 
 		id="tabelaPessoa">

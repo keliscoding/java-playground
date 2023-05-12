@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	>
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="style.css"/>
+<title>Treinamento JSF e Primefaces - Nestlé</title>
+</h:head>
+<h:body>
+	<header>
+		<div style="float: left; margin-left: 10px">
+			<h:graphicImage library="imagens" name="title.png" width="200"/>
+		</div>
+		<div style="float: right;">
+			<h:graphicImage library="imagens" name="logo.png" width="80"/>
+		</div>
+	</header>
+		
+	<h:form id="form">
+		<p:panelGrid columns="2">
+			<h:outputText value="Evento"/>
+			<p:selectOneMenu value="#{atividadeMB.atividade.nome}" filter="true">
+				<f:selectItem itemLabel="Semana da Administração" itemValue="evento_1"/>
+				<f:selectItem itemLabel="Semana da Meio Ambiente" itemValue="evento_2"/>
+				<f:selectItem itemLabel="Workshop de Programação" itemValue="evento_3"/>
+			</p:selectOneMenu>
+			
+			<p:commandButton value="Enviar" update="label"/>
+			<p:outputLabel value="#{atividadeMB.atividade.nome}" id="label"/>
+			
+		</p:panelGrid>
+	</h:form>
+	
+</h:body>
+</html>
