@@ -9,6 +9,25 @@
 <title>Insert title here</title>
 </h:head>
 <h:body>
-	
+	<h1>Cadastro de funcionário</h1>
+	<h:form>
+		<h:panelGrid columns="2">
+			Nome <h:inputText/>
+			Senha <h:inputSecret/>
+			Sexo 
+			<h:selectOneMenu>
+				<f:selectItem itemLabel="Masculino" itemValue="M"/> <!-- item value é o que é mandado pro servidor -->
+				<f:selectItem itemLabel="Feminino" itemValue="F"/>
+			</h:selectOneMenu>
+			Status
+			<h:selectOneRadio>
+				<f:selectItem itemLabel="Ativo" itemValue="A"/> <!-- item value é o que é mandado pro servidor -->
+				<f:selectItem itemLabel="Inativo" itemValue="I"/>
+			</h:selectOneRadio>
+			Observações <h:inputTextarea rows="3" cols="20"/>
+			<h:commandButton value="Cadastrar"></h:commandButton>
+		</h:panelGrid>
+		
+	</h:form>
 </h:body>
 </html>
