@@ -28,7 +28,32 @@
        <param-name>javax.faces.CONFIG_FILES</param-name>
     	 <param-value>/WEB-INF/xml/faces-config.xml</param-value>
   	</context-param>
-  	 <!-- Fim de configuracoes do JSF/Facelets -->
+  	
+  	<context-param>
+		<param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
+		<!-- desenvolvimento 0 milissegundo.-->
+		<param-value>0</param-value>
+		<!-- producao desligado.
+		<param-value>-1</param-value> -->
+	</context-param>
+  	
+  	 <!-- omitido o param javax.faces.PROJECT_STAGE
+	assumindo o default (Production) que servirah, tambem, para o
+	desenvolvimento, desabilitando algumas msgs de erro.-->
+	<!-- forcando a limpeza do cache -->
+	<context-param>
+		<param-name>com.sun.faces.defaultResourceMaxAge</param-name>
+		<!-- desenvolvimento 1 milissegundo.-->
+		<param-value>1</param-value>
+		<!-- producao 6 weeks.
+		<param-value>3628800000</param-value> -->
+	</context-param>
+	
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
+	<!--Fim de Configuracoes do JSF/Facelets -->
    	
 	<!-- Configuracoes do FacesServlet -->
   	<servlet>

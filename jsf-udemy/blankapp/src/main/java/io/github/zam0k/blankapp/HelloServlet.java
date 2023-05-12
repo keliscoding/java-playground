@@ -1,4 +1,4 @@
-package blankapp;
+package io.github.zam0k.blankapp;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">	
+	
+	<!-- Esta pagina sofrerah modificacao. -->
+	
+	<f:view contentType="text/html">
+		<h:head>
+			<title>#{facesContext.externalContext.getInitParameter('appTitle')}</title>
+						     					
+			<link rel="shortcut icon" href="#{facesContext.externalContext.
+				requestContextPath}/resources/images/favicon.ico" />
+					
+			<link rel="icon" type="image/gif" href="#{facesContext.externalContext.
+				requestContextPath}/resources/images/animated_favicon_daprom.gif"/>				
+						
+			<h:outputStylesheet library="css" name="my_style.css"/>
+		</h:head>
+		
+		<h:body>
+						
+			<table style="width:100%;border-collapse:collapse;border:0px;margin:0px;" >
+				<tr>				
+					<td >
+						<ui:include src="header.xhtml"/>		
+								
+						<h:panelGrid 
+							rendered="#{configBean.config.menuType=='menuBar'}" style="width:100%">
+							<ui:include src="hDynaMenu.xhtml"/>
+						</h:panelGrid>			
+			
+						<h:panelGrid 
+							rendered="#{configBean.config.menuType != 'menuBar'}" style="width:100%">
+							<ui:include src="vDynaMenu.xhtml"/>
+						</h:panelGrid>				
+		
+						<div align="center">
+							<ui:insert name="content"/>
+							<ui:include src="footer.xhtml"/>
+						</div>
+						
+						<div id="background">
+							<h:graphicImage styleClass="stretch"
+								value="/resources/images/skin/#{configBean.config.
+									skinBackground}/img_background.gif"/>
+						</div>
+					</td>
+				</tr>
+			</table>			
+		</h:body>	
+	</f:view>	
+</html>
