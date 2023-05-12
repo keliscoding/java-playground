@@ -8,19 +8,24 @@
 	>
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Insert title here</title>
+<h:outputStylesheet library="css" name="style.css"/>
+<title>Cadastro de Pessoas - Nestlé</title>
 </h:head>
 <h:body>
-	<h1>Cadastro de pessoa</h1>
+	<p:graphicImage library="imagens" name="logo.png" width="200px"/>
+	
 	<h:form id="form">
-		<h:panelGrid columns="2">
-			<p:outputLabel value="Nome"/>
-			<p:inputText value="#{pessoaController.pessoa.nome}"/>
-			<p:outputLabel value="Email"/>
-			<p:inputText value="#{pessoaController.pessoa.email}"/>
-			<p:outputLabel/>
-			<p:commandButton value="Adicionar" action="#{pessoaController.adicionar}" update="form tabelaPessoa"/>
-		</h:panelGrid>
+		<h1>Cadastro de pessoa</h1>
+		<p:panel header="Cadastro de clientes">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome"/>
+				<p:inputText value="#{pessoaController.pessoa.nome}" size="50"/>
+				<p:outputLabel value="Email"/>
+				<p:inputText value="#{pessoaController.pessoa.email}" size="50"/>
+				<p:outputLabel/>
+				<p:commandButton value="Adicionar" action="#{pessoaController.adicionar}" update="form tabelaPessoa"/>
+			</h:panelGrid>
+		</p:panel>
 	</h:form>
 	
 	<h1>Lista de pessoas</h1>
@@ -30,7 +35,7 @@
 		id="tabelaPessoa">
 		<p:column headerText="Nome">#{p.nome}</p:column>
 		<p:column headerText="E-mail">#{p.email}</p:column>
-		<p:column headerText="Editar">
+		<p:column headerText="Editar" width="70">
 			<p:button value="Editar" outcome="/paginas/Sucesso.xhtml?nome=#{p.nome}"/>
 		</p:column>
 	</p:dataTable>
