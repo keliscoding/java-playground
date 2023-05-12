@@ -24,14 +24,13 @@
 	<h:form id="form">
 		<p:panelGrid columns="2">
 			<h:outputText value="Evento"/>
-			<p:selectOneMenu value="#{atividadeMB.atividade.nome}" filter="true">
-				<f:selectItem itemLabel="Semana da Administração" itemValue="evento_1"/>
-				<f:selectItem itemLabel="Semana da Meio Ambiente" itemValue="evento_2"/>
-				<f:selectItem itemLabel="Workshop de Programação" itemValue="evento_3"/>
+			<p:selectOneMenu value="#{atividadeMB.atividade.tipoAtividade}" filter="true">
+				<f:selectItems value="#{atividadeMB.atividades}" var="atv" 
+				itemValue="#{atv}" itemLabel="#{atv.descricao}"/>
 			</p:selectOneMenu>
 			
 			<p:commandButton value="Enviar" update="label"/>
-			<p:outputLabel value="#{atividadeMB.atividade.nome}" id="label"/>
+			<p:outputLabel value="#{atividadeMB.atividade.tipoAtividade.descricao}" id="label"/>
 			
 		</p:panelGrid>
 	</h:form>

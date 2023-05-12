@@ -11,7 +11,7 @@ public class Atividade implements Serializable{
 
 	private Long id;
 	private String nome;
-	//private TipoAtividade tipoAtividade;
+	private TipoAtividade tipoAtividade;
 	
 	public String getNome() {
 		return nome;
@@ -19,5 +19,11 @@ public class Atividade implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+	public TipoAtividade getTipoAtividade() {
+		return tipoAtividade;
+	}
+	public void setTipoAtividade(TipoAtividade tipoAtividade) {
+		this.tipoAtividade = tipoAtividade;
+	}
+		
 }

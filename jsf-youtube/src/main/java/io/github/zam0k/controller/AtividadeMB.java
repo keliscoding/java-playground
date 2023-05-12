@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.github.zam0k.model.Atividade;
+import io.github.zam0k.model.TipoAtividade;
 
 @Named("atividadeMB")
 @SessionScoped
@@ -20,10 +21,10 @@ public class AtividadeMB implements Serializable {
 	@Inject
 	private Atividade atividade;
 	
-//	public TipoAtividade[] getAtividades() {
-//		return TipoAtividade.values();
-//	}
-//	
+	public TipoAtividade[] getAtividades() {
+		return TipoAtividade.values();
+	}
+	
 	public Atividade getAtividade() {
 		return atividade;
 	}
