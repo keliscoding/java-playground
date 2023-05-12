@@ -20,28 +20,16 @@
 			<h:graphicImage library="imagens" name="logo.png" width="80"/>
 		</div>
 	</header>
-	
-	<h1>Campos de password</h1>
-	
-	<p:messages autoUpdate="true" id="msg"/>
-	
+		
 	<h:form id="form">
 		<p:panelGrid columns="2">
-			<p:outputLabel value="Senha" for="senha"/>
-			<p:password id="senha"
-				feedback="true" 
-				weakLabel="Muito fraca" 
-				goodLabel="Senha razoável" 
-				strongLabel="Senha forte" inline="true"
-				prompLabel="Informe uma senha" match="confirma" 
-				required="true" requiredMessage="A senha é obrigatória"
-				validatorMessage="A senha e a confirmação estão diferentes"
-			/>
-			<p:outputLabel value="Confirme a senha" for="confirma"/>
-			<p:password id="confirma" required="true" requiredMessage="A senh é obrigatória"/>
+			<p:selectManyCheckbox value="#{ligaBBVA.timesEspanhois}" layout="pageDirection">
+				<f:selectItem itemLabel="Atlético de Madrid" itemValue="atletico"/>
+				<f:selectItem itemLabel="Barcelona" itemValue="barcelona"/>
+				<f:selectItem itemLabel="Real Madrid" itemValue="real"/>
+			</p:selectManyCheckbox>
+			<p:commandButton value="Times" action="#{ligaBBVA.selecionar}"/>
 		</p:panelGrid>
-		<br/>
-		<p:commandButton value="Cadastrar Senha" icon="ui-icon-disk" update="msg"/>
 	</h:form>
 	
 </h:body>
